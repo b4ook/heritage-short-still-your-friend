@@ -51,10 +51,23 @@ Each shot's reason is its `purpose` field in `storyboard.json`. The arc is:
 
 ## User test 2: near-final cut
 
-*   **Date:**
-*   **Who (at least 3 people from the audience):**
+*   **What they watched:** version one, the 89-second film with Ken Burns
+    motion over the keyframes.
 *   **What they said:**
-*   **What changed, with the storyboard commit:**
+    *   One tester found the video motion a bit laggy.
+    *   The other testers said the narration should change, because the AI
+        voice didn't sound right.
+*   **What changed:** version two (`storyboard_v2.json`, commit `7813f7e`).
+    *   **Motion:** the stepped, linear `zoompan` moves were replaced with
+        eased, sub-pixel depth parallax, and the shots now dissolve into
+        each other (EXPERIMENTS.md E11).
+    *   **Narration:** ten of the 16 lines were reworded, and the delivery
+        styles were rewritten (for example, "cheerful and excited" became
+        "bright and eager"). The two voices stayed the same, because
+        Gemini has only one Amharic male voice and the free tier allows
+        about 20 lines a day (E6, F5).
+    *   Version one stays on heritage.bebrook.co so the two cuts can be
+        compared.
 
 ## Motion differences between exports
 

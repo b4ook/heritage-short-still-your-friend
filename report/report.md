@@ -58,10 +58,16 @@ model at all: every stage was a cache hit.
     *   Who: _at least 3 people from the audience, and how you reached them._
     *   What they said: _quotes or close paraphrase._
     *   What changed: _the storyboard edits it caused, with the commit._
-*   **User test 2, the near-final cut** (26 Nov).
-    *   Who: _at least 3 people._
-    *   What they said: _quotes or close paraphrase._
-    *   What changed: _the edit, or why you kept the cut._
+*   **User test 2, the near-final cut** (version one of the film).
+    *   What they said: one tester found the video motion a bit laggy. The
+        others said the narration should change, because the AI voice
+        didn't sound right.
+    *   What changed: I made version two (commit `7813f7e`). The stepped
+        Ken Burns moves became eased depth parallax with dissolves between
+        shots (E11). Ten of the 16 lines were reworded and their delivery
+        styles rewritten. I could not swap the voices: Gemini has one
+        Amharic male voice, and the free tier allows about 20 lines a day
+        (E6, F5). Both versions are on the site for comparison.
 
 **Changes the evidence forced before any audience heard it.** The first
 complete script was 20 lines. The measured TTS durations put it at about
