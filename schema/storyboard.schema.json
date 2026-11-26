@@ -381,6 +381,16 @@
       "items": {
         "$ref": "#/$defs/end_card"
       }
+    },
+    "version": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "motion": {
+      "enum": [
+        "ken_burns",
+        "parallax"
+      ]
     }
   }
 }

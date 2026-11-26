@@ -36,8 +36,13 @@ def load_env():
     load_dotenv(ROOT / ".env")
 
 
-def load_storyboard(path=ROOT / "storyboard.json") -> dict:
-    return json.loads(Path(path).read_text(encoding="utf-8"))
+def storyboard_path() -> Path:
+    """STORYBOARD=storyboard_v2.json selects another version; the default is storyboard.json."""
+    return ROOT / os.environ.get("STORYBOARD", "storyboard.json")
+
+
+def load_storyboard(path=None) -> dict:
+    return json.loads(Path(path or storyboard_path()).read_text(encoding="utf-8"))
 
 
 def cache_key(job: dict) -> str:

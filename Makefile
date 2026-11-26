@@ -5,7 +5,7 @@ PY ?= $(if $(wildcard .venv/bin/python),.venv/bin/python,python3)
 
 film:
 	@echo "RUN_ID=$(RUN_ID)"
-	$(PY) -m pipeline.validate storyboard.json
+	$(PY) -m pipeline.validate
 	$(PY) -m pipeline.keyframes
 	$(PY) -m pipeline.narration
 	$(PY) -m pipeline.music
@@ -18,18 +18,18 @@ smoke:
 
 radio-draft:
 	@echo "RUN_ID=$(RUN_ID)"
-	$(PY) -m pipeline.validate storyboard.json
+	$(PY) -m pipeline.validate
 	$(PY) -m pipeline.assemble --radio --draft
 
 smoke-wan:
 	$(PY) -m pipeline.shots --smoke
 
 validate:
-	$(PY) -m pipeline.validate storyboard.json
+	$(PY) -m pipeline.validate
 
 radio:
 	@echo "RUN_ID=$(RUN_ID)"
-	$(PY) -m pipeline.validate storyboard.json
+	$(PY) -m pipeline.validate
 	$(PY) -m pipeline.narration
 	$(PY) -m pipeline.assemble --radio
 

@@ -24,6 +24,7 @@ const EXPERIMENTS = [
   ["E8", "Delivery style changes line length", "adopted", "“Laughing softly” took 11.0 s; “warm, a little amused” 5.5 s for the same words."],
   ["E9", "Pacing absorbs length without cuts", "partly", "Shorter tails, wordless shots and end cards: 100.6 s → 95.3 s. E8 closed the rest."],
   ["E10", "Int8 quantization is safe on a T4", "rejected", "It produced NaN audio. Without it, all three tracks rendered in 14–18 s each."],
+  ["E11", "Depth parallax moves stills better than zoompan", "adopted", "Version two: eased, sub-pixel moves over a depth map, with dissolves. 6.7 s of compute per 4 s of film."],
 ];
 const FAILURES = [
   ["F1", "Gemini TTS rejected the old speech call", "Text-to-speech moved to the Interactions API, with style in a speech annotation."],
@@ -62,7 +63,7 @@ function renderShots() {
 function gateBody(shot) {
   const lines = shot.lines.length
     ? h("ul", { class: "gate-lines" }, shot.lines.map((l) => h("li", {},
-        h("span", { class: "who" }, NAMES[l.speaker] || l.speaker),
+        h("span", { class: "who" }, NAMES[l.speaker] || l.speaker, l.reworded ? h("span", { class: "gate-new" }, "New wording") : null),
         h("span", { class: "am", lang: "am" }, l.text),
         h("span", { class: "en" }, l.en))))
     : h("p", { class: "gate-silent" }, "No dialogue. The picture carries it.");
@@ -78,7 +79,9 @@ function renderCast() {
       h("figcaption", {},
         h("div", { class: "person-name" }, NAMES[c.id] || c.id),
         h("div", { class: "person-desc" }, desc),
-        c.voice ? h("span", { class: "person-voice" }, `Voice · ${c.voice}`) : null)));
+        c.voice ? h("span", { class: "person-voice" }, `Voice · ${c.voice}`) : null,
+        h("div", { class: "person-lines", "data-person-lines": c.id }),
+        h("p", { class: "person-quote", "data-person-quote": c.id }))));
   }
 }
 
@@ -94,7 +97,8 @@ function renderEvidence() {
 
 function renderClosing() {
   const [first, ...rest] = FILM.endCards;
-  $("[data-closing]").append(
+  $("[data-closing]").replaceChildren(
+
     h("p", { class: "closing-am", lang: "am", "data-reveal": "" }, first.text),
     h("p", { class: "closing-en", "data-reveal": "" }, first.en),
     h("div", { class: "closing-rest" }, rest.map((c) => h("div", { "data-reveal": "" },
@@ -129,7 +133,6 @@ function renderBento() {
   $("[data-frames]").append(...shots.map((s) => h("img", { src: s.image, alt: "", loading: "lazy", decoding: "async" })));
 
   const typed = $("[data-type]");
-  const full = typed.textContent;
   const io = new IntersectionObserver((entries) => {
     for (const e of entries) {
       if (!e.isIntersecting) continue;
@@ -142,6 +145,7 @@ function renderBento() {
         $(".flow", tile).style.setProperty("--flow-h", `${span}px`);
       }
       if (tile.dataset.tile === "editor" && !reduced) {
+        const full = typed.textContent;
         typed.textContent = "";
         [...full].forEach((ch, i) => setTimeout(() => { typed.textContent += ch; }, 700 + i * 75));
       }
@@ -192,14 +196,14 @@ function reel() {
   let current = -1;
   const center = (el) => el.offsetLeft + el.offsetWidth / 2 - strip.clientWidth / 2;
   const go = (i) => strip.scrollTo({ left: center(frames[Math.max(0, Math.min(frames.length - 1, i))]), behavior: reduced ? "auto" : "smooth" });
-  const show = (i) => {
-    if (i === current) return;
+  const show = (i, force = false) => {
+    if (i === current && !force) return;
     const dir = i > current ? 1 : -1;
     current = i;
     frames.forEach((f, k) => f.classList.toggle("is-gate", k === i));
     const shot = FILM.shots[i];
     $("[data-gate-n]").textContent = pad(i + 1);
-    $("[data-gate-tag]").textContent = `${shot.size} · ${shot.duration} s · from ${tc(shot.start)}`;
+    $("[data-gate-tag]").textContent = `${shot.size} · ${shot.duration.toFixed(1)} s · from ${tc(shot.start)} · ${shot.move || ""}`;
     body.replaceChildren(...gateBody(shot));
     if (!reduced) {
       body.animate([{ opacity: 0, transform: `translateX(${dir * 14}px)`, filter: "blur(4px)" }, { opacity: 1, transform: "none", filter: "none" }],
@@ -226,7 +230,10 @@ function reel() {
     if (e.key === "ArrowRight") { e.preventDefault(); go(current + 1); }
   });
   show(0);
+  refreshGate = () => show(current, true);
 }
+
+let refreshGate = () => {};
 
 function tabs() {
   const buttons = $$("[data-tab]");
@@ -303,7 +310,7 @@ function setRatio(r, animate = true) {
   const from = hit.getBoundingClientRect();
   ratio = r;
   card.dataset.ratio = r;
-  poster.src = `media/poster_${r}.webp`;
+  poster.src = FILM.posters[r];
   const tabsEl = $(".ratio-tabs");
   $$("[data-ratio-tab]", tabsEl).forEach((b) => b.setAttribute("aria-selected", b.dataset.ratioTab === r));
   placePill(tabsEl);
@@ -312,6 +319,94 @@ function setRatio(r, animate = true) {
   hit.animate([{ width: `${from.width}px`, height: `${from.height}px` }, { width: `${to.width}px`, height: `${to.height}px` }],
     { duration: 560, easing: "cubic-bezier(0.77, 0, 0.175, 1)" });
   poster.animate([{ opacity: 0.2, filter: "blur(10px)" }, { opacity: 1, filter: "none" }], { duration: 520, easing: "ease" });
+}
+
+let version = 1;
+
+// "How it was made" per version. Counts come from the build (V.newLines); the rest describes the pipeline.
+const MAKING = {
+  1: (V) => ({
+    edCopy: "<strong>Edit one line.</strong> Only that line is made again.",
+    edFile: "storyboard.json", edSpeaker: '"abebe"', edText: '"አሁንም ነኝ።"', edTyped: "I still am.",
+    log: [["s11.3", "cache_hit"], ["s12.0", "cache_hit"], ["s12.1", "ok · 1 call"]],
+    statCopy: "<strong>Rebuilds from cache.</strong> Every keyframe and line already exists.",
+    statLead: "Model calls to rebuild", statNum: "0", statFoot: "28 keyframes · 16 lines · 3 scores",
+    motion: "Ken Burns · FFmpeg", assembly: "FFmpeg · cuts",
+    framesCopy: "<strong>24 keyframes.</strong> Framed natively for both screens.",
+  }),
+  2: (V) => ({
+    edCopy: "<strong>Reword a line.</strong> Only reworded lines are voiced again.",
+    edFile: "storyboard_v2.json", edSpeaker: '"kassa"', edText: '"ይቅርታ... ማን ልበል?"', edTyped: "Sorry... who are you?",
+    log: [["s11.0", "cache_hit"], ["s12.1", "cache_hit"], ["s03.0", "ok · 1 call"]],
+    statCopy: "<strong>Version two reused the cache.</strong> Same keyframes, same score.",
+    statLead: "New model calls for version two", statNum: String(V.newLines),
+    statFoot: `${V.newLines} voice lines · 0 images · 0 scores`,
+    motion: "Depth Anything V2", assembly: "FFmpeg · dissolves",
+    framesCopy: "<strong>The same 24 keyframes.</strong> Moved with depth parallax.",
+  }),
+};
+
+function applyVersionSections(V) {
+  const m = MAKING[V.id](V);
+  $$("[data-v]").forEach((el) => { el.textContent = m[el.dataset.v]; });
+  $$("[data-vhtml]").forEach((el) => { el.innerHTML = m[el.dataset.vhtml]; });
+  $("[data-type]").textContent = m.edTyped;
+  $("[data-log]").replaceChildren(...m.log.map(([id, status], i) => h("div",
+    { class: i === m.log.length - 1 ? "log-row log-new" : "log-row" },
+    h("span", { class: i === m.log.length - 1 ? "dot dot-live" : "dot" }), id,
+    h("em", { class: status.startsWith("ok") ? "ok" : "" }, status))));
+  $$("[data-version-chip]").forEach((el) => { el.textContent = FILM.versions.length > 1 ? V.label : ""; });
+  FILM.shots.forEach((s, i) => Object.assign(s, { start: V.shots[i].start, duration: V.shots[i].length, move: V.shots[i].move }));
+  $$(".edge-bottom").forEach((el, i) => { el.textContent = `${pad(i + 1)}  ${tc(V.shots[i].start)}`; });
+  for (const c of FILM.characters) {
+    const info = V.cast[c.id];
+    $(`[data-person-lines="${c.id}"]`).textContent = !info.lines ? "No lines · seen in the opening photo"
+      : `${info.lines} lines` + (V.id > 1 ? ` · ${info.reworded} reworded` : "");
+    $(`[data-person-quote="${c.id}"]`).replaceChildren(...(info.sample
+      ? [h("span", { class: "am", lang: "am" }, info.sample.text), h("span", { class: "en" }, info.sample.en)] : []));
+    $(`[data-person-quote="${c.id}"]`).hidden = !info.sample;
+  }
+}
+
+function setVersion(n, animate = true) {
+  // A version swaps the films, posters, dialogue and end cards; the pictures are the same keyframes.
+  const V = FILM.versions.find((v) => v.id === n) || FILM.versions[0];
+  version = V.id;
+  FILM.films = V.films;
+  FILM.posters = V.posters;
+  FILM.shots.forEach((s, i) => { s.lines = V.lines[i]; });
+  FILM.endCards = V.endCards;
+  applyVersionSections(V);
+  const tabsEl = $("[data-version-tabs]");
+  $$("[data-version-tab]", tabsEl).forEach((b) => b.setAttribute("aria-selected", Number(b.dataset.versionTab) === version));
+  placePill(tabsEl);
+  $("[data-version-note]").textContent = V.note;
+  const poster = $(".film-poster");
+  poster.src = V.posters[ratio];
+  if (animate && !reduced) {
+    poster.animate([{ opacity: 0.3, filter: "blur(8px)" }, { opacity: 1, filter: "none" }], { duration: 420, easing: "ease" });
+  }
+  refreshGate();
+  renderClosing();
+  if (animate) $$("[data-closing] [data-reveal]").forEach((el) => el.classList.add("is-in"));
+  const url = new URL(location.href);
+  if (version === 1) url.searchParams.delete("version"); else url.searchParams.set("version", version);
+  history.replaceState(null, "", url);
+}
+
+function versionSwitch() {
+  const tabsEl = $("[data-version-tabs]");
+  const pill = $(".tabs-pill", tabsEl);
+  for (const v of FILM.versions) {
+    const b = h("button", { role: "tab", "aria-selected": "false", "data-version-tab": v.id }, v.label);
+    b.addEventListener("click", () => { if (v.id !== version) setVersion(v.id); });
+    tabsEl.insertBefore(b, pill);
+  }
+  if (FILM.versions.length < 2) tabsEl.hidden = true;
+  const asked = Number(new URLSearchParams(location.search).get("version"));
+  setVersion(FILM.versions.some((v) => v.id === asked) ? asked : 1, false);
+  document.fonts.ready.then(() => placePill(tabsEl));
+  addEventListener("resize", () => placePill(tabsEl));
 }
 
 function ratioSwitch() {
@@ -328,7 +423,7 @@ function setSource(r, keepTime) {
   const t = keepTime ? video.currentTime : 0;
   const wasPlaying = !video.paused;
   video.src = FILM.films[r];
-  video.poster = `media/poster_${r}.webp`;
+  video.poster = FILM.posters[r];
   $("[data-toggle-ratio]").textContent = r === "16x9" ? "9:16" : "16:9";
   if (keepTime) {
     video.addEventListener("loadedmetadata", () => { video.currentTime = t; if (wasPlaying) video.play(); }, { once: true });
@@ -464,6 +559,7 @@ renderBento();
 renderEvidence();
 renderClosing();
 reel();
+versionSwitch();
 ratioSwitch();
 tabs();
 theatreControls();

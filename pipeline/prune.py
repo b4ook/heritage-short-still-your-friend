@@ -43,9 +43,25 @@ def prune(sb: dict, outputs: Path = OUTPUTS, dry_run: bool = False) -> list[Path
     return removed
 
 
+def prune_all(outputs: Path = OUTPUTS, dry_run: bool = False) -> list[Path]:
+    """Keep whatever any storyboard version (storyboard.json, storyboard_v2.json, ...) references."""
+    keep = set().union(*(referenced(load_storyboard(p)) for p in sorted(ROOT.glob("storyboard*.json"))))
+    removed = []
+    for stage in PRUNED:
+        folder = outputs / stage
+        if not folder.is_dir():
+            continue
+        for path in sorted(folder.iterdir()):
+            if path.is_file() and path.resolve() not in keep:
+                removed.append(path)
+                if not dry_run:
+                    path.unlink()
+    return removed
+
+
 def main(argv):
     dry = "--dry-run" in argv
-    removed = prune(load_storyboard(), dry_run=dry)
+    removed = prune_all(dry_run=dry)
     for path in removed:
         print(("would delete " if dry else "deleted ") + str(path.relative_to(ROOT)))
     print(f"{len(removed)} file(s) {'to delete' if dry else 'deleted'}")

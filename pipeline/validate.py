@@ -5,7 +5,7 @@ from pathlib import Path
 
 from jsonschema import Draft202012Validator
 
-from pipeline.common import ROOT, load_storyboard, wrap_subtitle
+from pipeline.common import ROOT, load_storyboard, storyboard_path, wrap_subtitle
 
 SCHEMA = ROOT / "schema" / "storyboard.schema.json"
 ETHICS = ROOT / "ETHICS.md"
@@ -76,7 +76,7 @@ def validate(sb: dict, headings=None) -> list[tuple[str, str]]:
 
 
 def main(argv):
-    path = argv[0] if argv else ROOT / "storyboard.json"
+    path = ROOT / argv[0] if argv else storyboard_path()
     errors = validate(load_storyboard(path))
     for where, message in errors:
         print(f"{where}: {message}")

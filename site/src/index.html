@@ -47,10 +47,15 @@
       </div>
 
       <figure id="film" class="film-card" data-reveal-card data-ratio="16x9">
+        <div class="film-tools">
+        <div class="tabs version-tabs" role="tablist" aria-label="Film version" data-version-tabs>
+          <span class="tabs-pill" aria-hidden="true"></span>
+        </div>
         <div class="tabs ratio-tabs" role="tablist" aria-label="Film format">
           <button role="tab" aria-selected="true" data-ratio-tab="16x9"><i class="ratio-icon ratio-wide" aria-hidden="true"></i>Landscape <small>16:9</small></button>
           <button role="tab" aria-selected="false" data-ratio-tab="9x16"><i class="ratio-icon ratio-tall" aria-hidden="true"></i>Portrait <small>9:16</small></button>
           <span class="tabs-pill" aria-hidden="true"></span>
+        </div>
         </div>
         <button class="film-card-hit" type="button" data-open-film aria-label="Play the film full screen">
           <img src="media/poster_16x9.webp" alt="Abebe, in a brown flat cap, holds his friend Kassa's hand in the stadium stands." class="film-poster" fetchpriority="high">
@@ -58,7 +63,7 @@
             <svg viewBox="0 0 24 24"><path d="M8 5.5v13l10.5-6.5z"/></svg>
           </span>
         </button>
-        <figcaption>Amharic with English subtitles · sound on</figcaption>
+        <figcaption><span data-version-note></span> Amharic with English subtitles · sound on</figcaption>
       </figure>
     </section>
 
@@ -70,9 +75,9 @@
     <!-- Story rail -->
     <section id="story" class="section" aria-labelledby="story-title">
       <div class="section-head" data-reveal>
-        <p class="eyebrow">The storyboard</p>
+        <p class="eyebrow">The storyboard <span class="ver-chip" data-version-chip></span></p>
         <h2 id="story-title" class="h2">Twelve shots, one contract.</h2>
-        <p class="section-lede">Every picture, line and subtitle below is read from <code>storyboard.json</code>, the one file the whole film is built from.</p>
+        <p class="section-lede">Every picture, line and subtitle below is read from <code data-v="edFile">storyboard.json</code>, the one file the whole film is built from.</p>
       </div>
       <div class="reel" data-reveal>
         <div class="reel-strip" data-rail tabindex="0" aria-label="Storyboard shots on a film strip. Scroll sideways or use the arrow buttons.">
@@ -95,7 +100,7 @@
     <!-- Characters -->
     <section class="section" aria-labelledby="cast-title">
       <div class="section-head" data-reveal>
-        <p class="eyebrow">The two friends</p>
+        <p class="eyebrow">The two friends <span class="ver-chip" data-version-chip></span></p>
         <h2 id="cast-title" class="h2">Fictional faces, held steady.</h2>
         <p class="section-lede">One approved reference portrait per character keeps Abebe and Kassa the same person across every shot. No real person appears or is voiced.</p>
       </div>
@@ -105,20 +110,20 @@
     <!-- Making -->
     <section id="making" class="section making" aria-labelledby="making-title">
       <div class="section-head" data-reveal>
-        <p class="eyebrow">How it was made</p>
+        <p class="eyebrow">How it was made <span class="ver-chip" data-version-chip></span></p>
         <h2 id="making-title" class="h2">Not edited by hand. Built by a pipeline.</h2>
         <p class="section-lede">One command rebuilds both films from the storyboard. Each stage caches its output under a hash of the exact request, so changing one line regenerates only that line.</p>
       </div>
       <div class="bento" data-bento>
         <article class="tile tile-hero" data-tile="editor">
-          <p class="tile-copy"><strong>Edit one line.</strong> Only that line is made again.</p>
+          <p class="tile-copy" data-vhtml="edCopy"><strong>Edit one line.</strong> Only that line is made again.</p>
           <div class="ed" aria-hidden="true">
-            <div class="ed-chrome"><i></i><i></i><i></i><span class="ed-tab">storyboard.json</span></div>
+            <div class="ed-chrome"><i></i><i></i><i></i><span class="ed-tab" data-v="edFile">storyboard.json</span></div>
             <div class="ed-body">
               <div class="ed-line"><b>41</b><span class="bar" style="--w:46%"></span></div>
               <div class="ed-line"><b>42</b><span class="bar" style="--w:62%"></span></div>
-              <div class="ed-line ed-key"><b>43</b><span class="k">"speaker"</span>: <span class="s">"abebe"</span>,</div>
-              <div class="ed-line ed-key"><b>44</b><span class="k">"text"</span>: <span class="s am" lang="am">"አሁንም ነኝ።"</span>,</div>
+              <div class="ed-line ed-key"><b>43</b><span class="k">"speaker"</span>: <span class="s" data-v="edSpeaker">"abebe"</span>,</div>
+              <div class="ed-line ed-key"><b>44</b><span class="k">"text"</span>: <span class="s am" lang="am" data-v="edText">"አሁንም ነኝ።"</span>,</div>
               <div class="ed-line ed-key ed-focus"><b>45</b><span class="k">"subtitle_en"</span>: <span class="s">"<span data-type>I still am.</span><span class="caret"></span>"</span></div>
               <div class="ed-line"><b>46</b><span class="bar" style="--w:38%"></span></div>
               <div class="ed-line"><b>47</b><span class="bar" style="--w:54%"></span></div>
@@ -127,16 +132,14 @@
           </div>
           <div class="log" aria-hidden="true">
             <div class="log-head">runs.jsonl</div>
-            <div class="log-row"><span class="dot"></span>s11.3<em>cache_hit</em></div>
-            <div class="log-row"><span class="dot"></span>s12.0<em>cache_hit</em></div>
-            <div class="log-row log-new"><span class="dot dot-live"></span>s12.1<em class="ok">ok · 1 call</em></div>
+            <div data-log></div>
           </div>
         </article>
         <article class="tile tile-stat" data-tile="stat">
-          <p class="tile-copy"><strong>Rebuilds from cache.</strong> Every keyframe and line already exists.</p>
-          <p class="stat-lead">Model calls to rebuild</p>
-          <p class="stat-num" data-count="0">0</p>
-          <p class="stat-foot">28 keyframes · 16 lines · 3 scores</p>
+          <p class="tile-copy" data-vhtml="statCopy"><strong>Rebuilds from cache.</strong> Every keyframe and line already exists.</p>
+          <p class="stat-lead" data-v="statLead">Model calls to rebuild</p>
+          <p class="stat-num" data-v="statNum">0</p>
+          <p class="stat-foot" data-v="statFoot">28 keyframes · 16 lines · 3 scores</p>
         </article>
         <article class="tile" data-tile="duck">
           <p class="tile-copy"><strong>The score steps aside.</strong> It ducks under every line.</p>
@@ -154,12 +157,12 @@
             <li><span>Keyframes</span><small>FLUX.2 klein</small></li>
             <li><span>Dialogue</span><small>Gemini 3.8 TTS</small></li>
             <li><span>Score</span><small>ACE-Step 1.5</small></li>
-            <li><span>Motion</span><small>Wan 2.2</small></li>
-            <li><span>Assembly</span><small>FFmpeg</small></li>
+            <li><span>Motion</span><small data-v="motion">Ken Burns · FFmpeg</small></li>
+            <li><span>Assembly</span><small data-v="assembly">FFmpeg · cuts</small></li>
           </ol>
         </article>
         <article class="tile tile-collection" data-tile="frames">
-          <p class="tile-copy"><strong>24 keyframes.</strong> Framed natively for both screens.</p>
+          <p class="tile-copy" data-vhtml="framesCopy"><strong>24 keyframes.</strong> Framed natively for both screens.</p>
           <div class="frames" data-frames aria-hidden="true"></div>
         </article>
       </div>
@@ -170,7 +173,7 @@
       <div class="section-head" data-reveal>
         <p class="eyebrow">The evidence</p>
         <h2 id="evidence-title" class="h2">What we tried. What broke.</h2>
-        <p class="section-lede">Every claim is written down in the repository: ten experiments with measured results, and every failure with its cause and fix.</p>
+        <p class="section-lede">Every claim is written down in the repository: eleven experiments with measured results, and every failure with its cause and fix.</p>
       </div>
       <div class="tabs" role="tablist" aria-label="Evidence">
         <button role="tab" aria-selected="true" aria-controls="panel-exp" id="tab-exp" data-tab="exp">Experiments</button>

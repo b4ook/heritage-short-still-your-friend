@@ -190,6 +190,14 @@ SUBTITLE_STYLE = {"9x16": (56, 260), "16x9": (56, 60)}
 CARD_FONT_SIZE = {"9x16": 54, "16x9": 60}
 CARD_WRAP = {"9x16": 22, "16x9": 40}
 TRIM_S, HOLD_MAX_S = 0.25, 1.5
+CROSSFADE_S = 0.5  # parallax versions dissolve between segments instead of cutting
+
+
+def suffix(sb: dict) -> str:
+    """Version 1 keeps its original file names; later versions add _v2, _v3."""
+    return "" if sb.get("version", 1) == 1 else f"_v{sb['version']}"
+
+
 def ai_card_lines(sb: dict, used_music: bool, used_clips: bool) -> list[str]:
     """The disclosure card names only the models that made something in this cut."""
     lines = ["Made with AI", "Voices: Gemini 3.8 TTS", "Images: FLUX.2 klein"]
@@ -197,6 +205,8 @@ def ai_card_lines(sb: dict, used_music: bool, used_clips: bool) -> list[str]:
         lines.append("Music: ACE-Step 1.5")
     if used_clips:
         lines.append("Motion: Wan 2.2")
+    if sb.get("motion") == "parallax":
+        lines.append("Depth: Depth Anything V2")
     return lines
 
 
@@ -253,6 +263,11 @@ def render_shot(sb: dict, shot: dict, ratio: str, length: float, out: Path) -> s
     still = keyframes.keyframe_file(sb, shot, ratio)
     if not still.exists():
         raise FileNotFoundError(f"keyframe for {shot['id']} {ratio} missing; run the keyframes stage")
+    if sb.get("motion") == "parallax":
+        from pipeline import parallax
+
+        parallax.render(still, shot["ken_burns"], length, w, h, FPS, out)
+        return "parallax"
     ffmpeg(["-i", _rel(still), "-vf", ken_burns_filter(shot["ken_burns"], length, w, h), "-t", str(length),
             "-c:v", "libx264", "-pix_fmt", "yuv420p", _rel(out)])
     return "ken_burns" if clip is None and shot["animate"] == "none" else "ken_burns (fallback)"
@@ -279,18 +294,22 @@ def film(sb: dict, ratio: str, draft: bool = False) -> Path:
 
     timeline = build_timeline(sb, narration.durations(sb, DRAFT_MISSING_S if draft else None), strict=not draft)
     total = timeline["total_s"]
-    work = TMP / f"film_{ratio}"
+    tag = suffix(sb)
+    xf = CROSSFADE_S if sb.get("motion") == "parallax" else 0.0
+    work = TMP / f"film_{ratio}{tag}"
     work.mkdir(parents=True, exist_ok=True)
-    segments, report = [], []
+    segments, lengths, report = [], [], []
     for t, shot in zip(timeline["shots"], sb["shots"]):
         seg = work / f"{shot['id']}.mp4"
-        report.append(f"{shot['id']}: {render_shot(sb, shot, ratio, t['length_s'], seg)}")
+        report.append(f"{shot['id']}: {render_shot(sb, shot, ratio, t['length_s'] + xf, seg)}")
         segments.append(seg)
+        lengths.append(t["length_s"])
     for i, card in enumerate(timeline["cards"]):
         seg = work / f"card{i}.mp4"
         render_card(textwrap.wrap(card["text"], CARD_WRAP[ratio]), amharic_font(), CARD_FONT_SIZE[ratio],
-                    card["length_s"], ratio, seg)
+                    card["length_s"] + xf, ratio, seg)
         segments.append(seg)
+        lengths.append(card["length_s"])
 
     candidates = music.candidate_files(sb)
     if not sb["music"]["use_placeholder"] and not any(candidates):
@@ -303,26 +322,41 @@ def film(sb: dict, ratio: str, draft: bool = False) -> Path:
     render_card(ai_card_lines(sb, score != PLACEHOLDER, any(r.endswith(": clip") for r in report)), latin_font(),
                 CARD_FONT_SIZE[ratio], END_CARD_S, ratio, seg)
     segments.append(seg)
-    concat = work / "concat.txt"
-    concat.write_text("".join(f"file '{s.name}'\n" for s in segments), encoding="utf-8")
     picture = work / "picture.mp4"
-    ffmpeg(["-f", "concat", "-safe", "0", "-i", _rel(concat), "-c", "copy", _rel(picture)])
+    if xf:
+        # Each segment but the last runs xf longer; xfade k starts where segment k would have cut,
+        # so every shot still begins on the audio timeline.
+        args, chain, prev, offset = [], [], "0:v", 0.0
+        for seg in segments:
+            args += ["-i", _rel(seg)]
+        for k in range(1, len(segments)):
+            offset += lengths[k - 1]
+            # Text cards dip through black: dissolving one card into the next overlaps their words.
+            kind = "fadeblack" if k > len(sb["shots"]) else "fade"
+            chain.append(f"[{prev}][{k}:v]xfade=transition={kind}:duration={xf}:offset={offset:.3f}[x{k}]")
+            prev = f"x{k}"
+        ffmpeg([*args, "-filter_complex", ";".join(chain), "-map", f"[{prev}]", "-c:v", "libx264", "-crf", "16",
+                "-pix_fmt", "yuv420p", "-r", str(FPS), _rel(picture)])
+    else:
+        concat = work / "concat.txt"
+        concat.write_text("".join(f"file '{s.name}'\n" for s in segments), encoding="utf-8")
+        ffmpeg(["-f", "concat", "-safe", "0", "-i", _rel(concat), "-c", "copy", _rel(picture)])
 
     voices, missing = placed_voices(sb, timeline)
-    mix = render_mix(voices, score, total, f"film_{ratio}")
+    mix = render_mix(voices, score, total, f"film_{ratio}{tag}")
 
-    srt = FINAL / ("film_draft.srt" if draft else "subtitles_en.srt")
+    srt = FINAL / ("film_draft.srt" if draft else f"subtitles_en{tag}.srt")
     srt.parent.mkdir(parents=True, exist_ok=True)
     srt.write_text(srt_text(timeline), encoding="utf-8")
     w, h = SIZES[ratio]
     font_size, margin = SUBTITLE_STYLE[ratio]
     subs = (f"subtitles={_rel(srt)}:fontsdir=assets/fonts:force_style='PlayResX={w},PlayResY={h},"
             f"FontName=Arial,FontSize={font_size},MarginV={margin},Outline=3'")
-    out = FINAL / (f"film_{ratio}_draft.mp4" if draft else f"film_{ratio}.mp4")
+    out = FINAL / (f"film_{ratio}{tag}_draft.mp4" if draft else f"film_{ratio}{tag}.mp4")
     ffmpeg(["-i", _rel(picture), "-i", _rel(mix), "-vf", subs, "-af", master_filter(mix),
             "-map", "0:v", "-map", "1:a", *ENCODE, "-t", str(total), _rel(out)])
     fallbacks = [r for r in report if "fallback" in r]
-    (FINAL / "fallbacks.txt").write_text("\n".join(fallbacks + [f"music: {note}"] +
+    (FINAL / f"fallbacks{tag}.txt").write_text("\n".join(fallbacks + [f"music: {note}"] +
                                          [f"silent line: {m}" for m in missing]) + "\n", encoding="utf-8")
     print(f"film {ratio}: {total:.1f}s, score {note} -> {out}")
     for line in report:

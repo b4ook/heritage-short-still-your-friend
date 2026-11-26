@@ -144,3 +144,32 @@ in the entry, and in FAILURES.md.
         −13.8 to −14.1 LUFS, 7–8 LU range) at 14.5–18.3 s each. The float32
         fallback never ran.
 *   **Decision:** no quantization (FAILURES.md F8).
+
+## E11. Depth parallax makes stills move better than zoompan (26 Nov). Adopted for version two
+
+*   **Hypothesis:** version one's Ken Burns looked stiff for three reasons:
+    *   `zoompan` rounds its window to whole pixels, so slow moves step.
+    *   Every move is linear, so it starts and stops abruptly.
+    *   Hard cuts join the shots.
+
+    A 2.5D move over a depth map, eased and sampled at sub-pixel positions,
+    should read as a camera moving through the scene.
+*   **Change:** `pipeline/parallax.py` estimates depth for each keyframe with
+    Depth Anything V2 Small (local, Apple MPS) and maps every output frame
+    back into the keyframe with float coordinates (`cv2.remap`, cubic).
+    *   On a push-in, near layers scale 7% more than far layers.
+    *   On a pan, near layers slide 2.2% of the width further.
+    *   Moves ease (75% smoothstep, 25% linear), with light temporal grain.
+    *   Shots dissolve into each other over 0.5 s; text cards dip through
+        black.
+
+    `storyboard_v2.json` sets `"motion": "parallax"` and redesigns each
+    shot's move.
+*   **Result:**
+    *   Rendering cost: 6.7 s of compute per 4 s of 1080p film. Depth costs
+        about 2 s per keyframe once the model is cached.
+    *   Film: version two is 89.4 s, −14.0 LUFS integrated, −1.4 dBFS peak.
+    *   Frame check: outlines stay clean at this strength, with no tearing
+        around the two men in s07.
+*   **Decision:** keep parallax for version two. Version one stays as it
+    was for comparison; both are on heritage.bebrook.co.

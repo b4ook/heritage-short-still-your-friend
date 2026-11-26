@@ -24,6 +24,7 @@
 }
 
 *, *::before, *::after { box-sizing: border-box; }
+[hidden] { display: none !important; } /* components that set display (grid, flex) must still hide */
 html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
 body {
   margin: 0;
@@ -96,7 +97,11 @@ main, .footer { position: relative; z-index: 1; }
 .hero-actions { display: flex; justify-content: center; gap: 12px; margin-top: 32px; flex-wrap: wrap; }
 
 .film-card { margin: 56px auto 0; max-width: 1120px; display: flex; flex-direction: column; align-items: center; }
-.ratio-tabs { margin-bottom: 18px; }
+.film-tools { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; margin-bottom: 18px; }
+.film-tools .tabs { margin-bottom: 0; }
+.version-tabs button { font-weight: 500; }
+.film-card figcaption { max-width: 640px; text-align: center; text-wrap: balance; }
+.film-card figcaption [data-version-note] { color: var(--graphite); }
 .ratio-tabs button { display: inline-flex; align-items: center; gap: 8px; }
 .ratio-tabs small { font-size: 12px; color: var(--ash); font-variant-numeric: tabular-nums; }
 .ratio-icon { display: block; border: 1.5px solid currentColor; border-radius: 3px; opacity: 0.8; }
@@ -172,6 +177,13 @@ main, .footer { position: relative; z-index: 1; }
 .gate-lines .who { font-size: 11px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ash); }
 .gate-lines .am { display: block; font-family: var(--ethiopic); font-size: 17px; color: var(--ink); }
 .gate-lines .en { display: block; font-size: 15px; color: var(--graphite); }
+.gate-new { display: inline-block; margin-left: 8px; padding: 2px 8px; border-radius: var(--radius-pill); background: var(--air); color: #0b7fa3; font-size: 10px; letter-spacing: 0.04em; text-transform: none; vertical-align: 1px; }
+.ver-chip { display: inline-block; margin-left: 8px; padding: 2px 9px; border-radius: var(--radius-pill); background: var(--air); color: var(--graphite); font-size: 11px; }
+.ver-chip:empty { display: none; }
+.person-lines { margin-top: 8px; font-size: 13px; color: var(--graphite); }
+.person-quote { margin: 8px 0 0; padding-left: 10px; border-left: 2px solid var(--cyan); }
+.person-quote .am { display: block; font-family: var(--ethiopic); font-size: 15px; color: var(--ink); }
+.person-quote .en { display: block; font-size: 13px; color: var(--ash); }
 .gate-silent { margin: 18px 0 0; font-size: 15px; color: var(--ash); font-style: italic; }
 .rail-controls { display: flex; gap: 8px; justify-content: flex-end; }
 .icon-btn { display: grid; place-items: center; width: 44px; height: 44px; border-radius: 50%; border: 0.5px solid var(--steel); background: var(--paper); cursor: pointer; transition: transform 160ms var(--ease-out), background-color 200ms ease; }
@@ -382,3 +394,4 @@ main, .footer { position: relative; z-index: 1; }
   .controls { gap: 4px; }
   .ctl-time { display: none; }
 }
+@media (max-width: 400px) { .ratio-tabs small { display: none; } }

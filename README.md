@@ -75,6 +75,21 @@ silence for any missing line and the placeholder track if no score exists.
     `music.chosen_reason`. Until you do, assembly uses the first candidate
     and prints a warning.
 
+## Version two
+
+`storyboard_v2.json` tells the same story with reworded dialogue and depth
+parallax motion (EXPERIMENTS.md E11). It reuses version one's keyframes and
+score through the cache. Six unchanged lines reuse their audio, and ten new
+lines cost ten TTS calls. Select it with the `STORYBOARD` variable:
+
+```bash
+STORYBOARD=storyboard_v2.json make film
+```
+
+Its films are written as `outputs/final/film_16x9_v2.mp4` and
+`film_9x16_v2.mp4`. `make prune` keeps every file that any `storyboard*.json`
+uses.
+
 ## Change one shot
 
 Edit that shot's `image_prompt` (or one `lines[].text`) in
