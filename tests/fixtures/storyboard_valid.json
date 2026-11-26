@@ -1,0 +1,480 @@
+{
+  "title": "አሁንም ጓደኛህ ነኝ — Still Your Friend",
+  "language": "am-ET",
+  "tts_model": "gemini-3.8-flash-tts",
+  "style_block": "cinematic realistic film still, natural warm light, gentle film grain, muted earthy palette, Addis Ababa, shallow depth of field",
+  "wan": {
+    "size_9x16": "704*1280",
+    "size_16x9": "1280*704",
+    "frames": 121
+  },
+  "characters": [
+    {
+      "id": "abebe",
+      "description": "Abebe: an Ethiopian man in his seventies, dark brown skin, Ethiopian Habesha features, short grey beard, warm brown eyes, wearing a brown flat cap and a dark tweed jacket over a white shirt",
+      "reference_prompt": "portrait of a fictional elderly Ethiopian man, alone in the frame",
+      "seed": 101,
+      "golden_reference": "outputs/keyframes/d114a9fdd5a2fca1.png",
+      "real_person": false,
+      "consent_ref": null,
+      "voice": "Algenib",
+      "voice_style": "elderly Ethiopian man, warm and patient"
+    },
+    {
+      "id": "kassa",
+      "description": "Kassa: an Ethiopian man in his seventies, dark brown skin, Ethiopian Habesha features, thin face, clean-shaven, short white hair, wearing a cream gabi shawl over a pale blue shirt",
+      "reference_prompt": "portrait of a fictional elderly Ethiopian man, alone in the frame",
+      "seed": 202,
+      "golden_reference": "outputs/keyframes/917a8428d6462043.png",
+      "real_person": false,
+      "consent_ref": null,
+      "voice": "am-et-assistant-1",
+      "voice_style": "elderly man, gentle and a little hesitant"
+    },
+    {
+      "id": "young_abebe",
+      "description": "young Abebe in his twenties in the 1970s, dark brown skin, Ethiopian Habesha features, slim, short afro, broad smile, holding a round black-and-white leather soccer ball",
+      "reference_prompt": "portrait of a fictional young Ethiopian man, 1970s, alone in the frame",
+      "seed": 303,
+      "golden_reference": "outputs/keyframes/a254208ba34f3ee7.png",
+      "real_person": false,
+      "consent_ref": null,
+      "voice": null,
+      "voice_style": ""
+    },
+    {
+      "id": "young_kassa",
+      "description": "young Kassa in his twenties in the 1970s, dark brown skin, Ethiopian Habesha features, tall and thin, short hair, laughing",
+      "reference_prompt": "portrait of a fictional young Ethiopian man, 1970s, alone in the frame",
+      "seed": 404,
+      "golden_reference": "outputs/keyframes/731f76fc1f074a0e.png",
+      "real_person": false,
+      "consent_ref": null,
+      "voice": null,
+      "voice_style": ""
+    }
+  ],
+  "music": {
+    "caption": "gentle Ethiopian krar and masenqo with soft strings, tizita mood, warm, nostalgic, tender, hopeful, instrumental",
+    "bpm": 68,
+    "key": "C minor",
+    "duration_s": 90,
+    "seeds": [
+      11,
+      22,
+      33
+    ],
+    "chosen": 1,
+    "chosen_reason": "Warm, and it stays under the voices (author's listening choice of three ACE-Step candidates, 26 Nov).",
+    "use_placeholder": false
+  },
+  "shots": [
+    {
+      "id": "s01",
+      "purpose": "Open on the friendship before the illness: two young men, one football, a lifetime ahead",
+      "shot_size": "insert",
+      "duration_s": 4.5,
+      "characters": [
+        "young_abebe",
+        "young_kassa"
+      ],
+      "image_prompt": "A faded black-and-white vintage photograph, monochrome, 1970s print with a white border and scratches: two young Ethiopian men side by side on a dusty football pitch, both laughing; the one on the left holds a round soccer ball, the one on the right has his arm around his friend's shoulder; candid snapshot of two friends",
+      "image_seed": 1001,
+      "motion_prompt": "slow push-in on the photograph",
+      "motion_seed": 2001,
+      "animate": "none",
+      "ken_burns": {
+        "zoom_from": 1.0,
+        "zoom_to": 1.2,
+        "pan": "none"
+      },
+      "lines": [],
+      "music_cue": "theme enters, soft",
+      "use_references": false
+    },
+    {
+      "id": "s02",
+      "purpose": "Abebe today: an old man still excited about match day",
+      "shot_size": "medium",
+      "duration_s": 5,
+      "characters": [
+        "abebe"
+      ],
+      "image_prompt": "An elderly Ethiopian man in his seventies with a grey beard and a brown flat cap, in a modest Addis Ababa sitting room in morning light, smiling as he holds an old mobile phone to his ear",
+      "image_seed": 1002,
+      "motion_prompt": "he leans forward eagerly as he speaks, gentle camera drift",
+      "motion_seed": 2002,
+      "animate": "none",
+      "ken_burns": {
+        "zoom_from": 1.1,
+        "zoom_to": 1.25,
+        "pan": "none"
+      },
+      "lines": [
+        {
+          "speaker": "abebe",
+          "text": "ካሳ! ዛሬ ጨዋታ አለን። እንዳትረሳ! እንደ ድሮው አብረን እንሄዳለን።",
+          "subtitle_en": "Kassa! There's a match today. Don't forget! We'll go together, like before.",
+          "style": "cheerful and excited",
+          "tts_model": null
+        }
+      ],
+      "music_cue": "underscore",
+      "use_references": true
+    },
+    {
+      "id": "s03",
+      "purpose": "The first sign: Kassa does not recognise his best friend's voice",
+      "shot_size": "medium_close",
+      "duration_s": 4,
+      "characters": [
+        "kassa"
+      ],
+      "image_prompt": "An elderly Ethiopian man in his seventies, thin, clean-shaven, white short hair, wearing a cream gabi shawl, sitting by a window holding a mobile phone, his face puzzled and searching",
+      "image_seed": 1003,
+      "motion_prompt": "he slowly lowers his eyes, confused, fixed camera",
+      "motion_seed": 2003,
+      "animate": "none",
+      "ken_burns": {
+        "zoom_from": 1.1,
+        "zoom_to": 1.2,
+        "pan": "none"
+      },
+      "lines": [
+        {
+          "speaker": "kassa",
+          "text": "እሺ... አንተ ማን ነህ?",
+          "subtitle_en": "Okay... who are you?",
+          "style": "uncertain and gentle",
+          "tts_model": null
+        }
+      ],
+      "music_cue": "music thins out",
+      "use_references": true
+    },
+    {
+      "id": "s04",
+      "purpose": "Abebe absorbs the hurt and answers with love and humour",
+      "shot_size": "close",
+      "duration_s": 5,
+      "characters": [
+        "abebe"
+      ],
+      "image_prompt": "Close-up of the elderly man with the grey beard and brown flat cap, holding the phone, his eyes sad for a moment and then softening into a warm smile",
+      "image_seed": 1004,
+      "motion_prompt": "a brief still pause, then a slow warm smile",
+      "motion_seed": 2004,
+      "animate": "none",
+      "ken_burns": {
+        "zoom_from": 1.1,
+        "zoom_to": 1.25,
+        "pan": "none"
+      },
+      "lines": [
+        {
+          "speaker": "abebe",
+          "text": "እኔ ነኝ... ኳስ ሲመታ ሁልጊዜ የምትጮህብኝ!",
+          "subtitle_en": "It's me... the one you always shout at when the ball is kicked!",
+          "style": "a short pause, then warm and smiling",
+          "tts_model": null
+        }
+      ],
+      "music_cue": "underscore",
+      "use_references": true
+    },
+    {
+      "id": "s05",
+      "purpose": "The walk: Kassa no longer knows his own passion; Abebe gently carries their shared past",
+      "shot_size": "wide",
+      "duration_s": 9,
+      "characters": [
+        "abebe",
+        "kassa"
+      ],
+      "image_prompt": "Two elderly Ethiopian men walking side by side along a busy Addis Ababa street towards a stadium in late afternoon light; the bearded one in a brown flat cap guides the other in a cream gabi shawl, who looks around in wonder",
+      "image_seed": 1005,
+      "motion_prompt": "the two men walk slowly towards the camera, camera tracks back",
+      "motion_seed": 2005,
+      "animate": "none",
+      "ken_burns": {
+        "zoom_from": 1.15,
+        "zoom_to": 1.25,
+        "pan": "right"
+      },
+      "lines": [
+        {
+          "speaker": "kassa",
+          "text": "አንተ የኳስ አፍቃሪ ነህ?",
+          "subtitle_en": "Are you a football fan?",
+          "style": "curious, polite",
+          "tts_model": null
+        },
+        {
+          "speaker": "abebe",
+          "text": "እኔ? አንተ ነበርክ የኳስ አፍቃሪው። እኔ አንተን ተከትዬ ነው የመጣሁት።",
+          "subtitle_en": "Me? You were the football fan. I only came along because of you.",
+          "style": "laughing softly",
+          "tts_model": null
+        }
+      ],
+      "music_cue": "underscore",
+      "use_references": true
+    },
+    {
+      "id": "s06",
+      "purpose": "The stadium: the world of joy they have shared for decades",
+      "shot_size": "extreme_wide",
+      "duration_s": 2.5,
+      "characters": [],
+      "image_prompt": "A packed Ethiopian football stadium on match day, fans in green, yellow and red waving flags, warm golden light over the stands",
+      "image_seed": 1006,
+      "motion_prompt": "flags wave across the crowd, slow pan",
+      "motion_seed": 2006,
+      "animate": "none",
+      "ken_burns": {
+        "zoom_from": 1.1,
+        "zoom_to": 1.2,
+        "pan": "left"
+      },
+      "lines": [],
+      "music_cue": "crowd swell",
+      "use_references": true
+    },
+    {
+      "id": "s07",
+      "purpose": "In the stands, a flicker of memory and the weight of fifty years",
+      "shot_size": "medium",
+      "duration_s": 8,
+      "characters": [
+        "abebe",
+        "kassa"
+      ],
+      "image_prompt": "Two elderly Ethiopian men sitting side by side on concrete seats in the crowded stands of an Addis Ababa football stadium, seen in profile; the man in the cream gabi shawl looks out at the pitch, his bearded friend in the brown flat cap watches him; candid moment, not looking at the camera",
+      "image_seed": 1007,
+      "motion_prompt": "the man in the shawl slowly turns his head towards his friend",
+      "motion_seed": 2007,
+      "animate": "none",
+      "ken_burns": {
+        "zoom_from": 1.1,
+        "zoom_to": 1.25,
+        "pan": "none"
+      },
+      "lines": [
+        {
+          "speaker": "kassa",
+          "text": "ይህ ቦታ... እዚህ ቀድሞ መጥተን ነበር?",
+          "subtitle_en": "This place... have we been here before?",
+          "style": "slowly, searching",
+          "tts_model": "gemini-3.8-flash-lite-tts"
+        },
+        {
+          "speaker": "abebe",
+          "text": "አዎ። ከእኔ ጋር። ለሃምሳ ዓመታት።",
+          "subtitle_en": "Yes. With me. For fifty years.",
+          "style": "quiet and tender",
+          "tts_model": "gemini-3.8-flash-lite-tts"
+        }
+      ],
+      "music_cue": "underscore",
+      "use_references": false
+    },
+    {
+      "id": "s08",
+      "purpose": "The goal: the love of the game survives what memory has lost",
+      "shot_size": "medium",
+      "duration_s": 3,
+      "characters": [
+        "kassa"
+      ],
+      "image_prompt": "The elderly man in the cream gabi shawl leaping up from his stadium seat, arms raised, shouting with pure joy, the crowd celebrating around him",
+      "image_seed": 1008,
+      "motion_prompt": "he jumps up and waves his arms, crowd celebrating",
+      "motion_seed": 2008,
+      "animate": "none",
+      "ken_burns": {
+        "zoom_from": 1.0,
+        "zoom_to": 1.15,
+        "pan": "none"
+      },
+      "lines": [
+        {
+          "speaker": "kassa",
+          "text": "ጎል! ጎል!",
+          "subtitle_en": "Goal! Goal!",
+          "style": "shouting with joy",
+          "tts_model": "gemini-3.8-flash-lite-tts"
+        }
+      ],
+      "music_cue": "music lifts",
+      "use_references": true
+    },
+    {
+      "id": "s09",
+      "purpose": "Joy and grief at once: Abebe's tears and his promise",
+      "shot_size": "close",
+      "duration_s": 6,
+      "characters": [
+        "abebe",
+        "kassa"
+      ],
+      "image_prompt": "Close-up of the bearded elderly man in the brown flat cap with tears in his eyes, smiling, holding the hand of his friend in the cream shawl, stadium blurred behind",
+      "image_seed": 1009,
+      "motion_prompt": "tears well in his eyes, very slow push-in",
+      "motion_seed": 2009,
+      "animate": "none",
+      "ken_burns": {
+        "zoom_from": 1.1,
+        "zoom_to": 1.25,
+        "pan": "none"
+      },
+      "lines": [
+        {
+          "speaker": "kassa",
+          "text": "አንተ ግን ማን ነህ?",
+          "subtitle_en": "But who are you?",
+          "style": "smiling and curious",
+          "tts_model": "gemini-3.8-flash-lite-tts"
+        },
+        {
+          "speaker": "abebe",
+          "text": "ጓደኛህ ነኝ። እናም እንደ ድሮው ከጎንህ ነኝ።",
+          "subtitle_en": "I'm your friend. And I'm by your side, like always.",
+          "style": "tearful but steady",
+          "tts_model": "gemini-3.8-flash-lite-tts"
+        }
+      ],
+      "music_cue": "underscore",
+      "use_references": true
+    },
+    {
+      "id": "s10",
+      "purpose": "Without words, Kassa answers with touch",
+      "shot_size": "insert",
+      "duration_s": 2.5,
+      "characters": [
+        "abebe",
+        "kassa"
+      ],
+      "image_prompt": "Close-up of an old man's hand in a cream shawl sleeve resting on his friend's shoulder, stadium lights soft in the background",
+      "image_seed": 1010,
+      "motion_prompt": "the hand settles gently on the shoulder, fixed camera",
+      "motion_seed": 2010,
+      "animate": "none",
+      "ken_burns": {
+        "zoom_from": 1.1,
+        "zoom_to": 1.2,
+        "pan": "none"
+      },
+      "lines": [],
+      "music_cue": "underscore",
+      "use_references": true
+    },
+    {
+      "id": "s11",
+      "purpose": "After the match, the old photo bridges past and present",
+      "shot_size": "medium",
+      "duration_s": 7,
+      "characters": [
+        "abebe",
+        "kassa"
+      ],
+      "image_prompt": "Two elderly Ethiopian men sitting side by side on empty stadium seats at dusk; the bearded man in the brown flat cap holds out a small old black-and-white photograph, and his friend in the cream gabi shawl looks down at the photograph in his hands; candid moment, not looking at the camera, Addis Ababa, Ethiopia",
+      "image_seed": 1011,
+      "motion_prompt": "the man in the shawl looks closely at the photograph, gentle camera drift",
+      "motion_seed": 2011,
+      "animate": "none",
+      "ken_burns": {
+        "zoom_from": 1.1,
+        "zoom_to": 1.2,
+        "pan": "none"
+      },
+      "lines": [
+        {
+          "speaker": "kassa",
+          "text": "ይህ ሰው ማን ነው?",
+          "subtitle_en": "Who is this man?",
+          "style": "curious",
+          "tts_model": "gemini-3.8-flash-lite-tts"
+        },
+        {
+          "speaker": "abebe",
+          "text": "አንተ ነህ።",
+          "subtitle_en": "It's you.",
+          "style": "soft",
+          "tts_model": "gemini-3.8-flash-lite-tts"
+        },
+        {
+          "speaker": "kassa",
+          "text": "እና ይህ?",
+          "subtitle_en": "And this one?",
+          "style": "curious",
+          "tts_model": "gemini-3.8-flash-lite-tts"
+        },
+        {
+          "speaker": "abebe",
+          "text": "እኔ ነኝ።",
+          "subtitle_en": "It's me.",
+          "style": "soft",
+          "tts_model": "gemini-3.8-flash-lite-tts"
+        }
+      ],
+      "music_cue": "theme returns",
+      "use_references": false
+    },
+    {
+      "id": "s12",
+      "purpose": "The ending: friendship outlasts memory; we pull away and leave them together",
+      "shot_size": "wide",
+      "duration_s": 6,
+      "characters": [
+        "abebe",
+        "kassa"
+      ],
+      "image_prompt": "Seen from far behind and above: two small figures of elderly men sitting close together in the empty stands of a large Addis Ababa football stadium at dusk, their backs to the camera, warm last light, long shadows, vast empty seats around them",
+      "image_seed": 1012,
+      "motion_prompt": "the camera slowly pulls back and rises, leaving the two friends small in the empty stadium",
+      "motion_seed": 2012,
+      "animate": "none",
+      "ken_burns": {
+        "zoom_from": 1.3,
+        "zoom_to": 1.0,
+        "pan": "up"
+      },
+      "lines": [
+        {
+          "speaker": "kassa",
+          "text": "ጥሩ ጓደኛ ይመስላል።",
+          "subtitle_en": "He looks like a good friend.",
+          "style": "warmly",
+          "tts_model": "gemini-3.8-flash-lite-tts"
+        },
+        {
+          "speaker": "abebe",
+          "text": "አሁንም ነኝ።",
+          "subtitle_en": "I still am.",
+          "style": "softly smiling",
+          "tts_model": "gemini-3.8-flash-lite-tts"
+        }
+      ],
+      "music_cue": "theme resolves, stadium sound fades",
+      "use_references": false
+    }
+  ],
+  "end_cards": [
+    {
+      "text": "አንዳንድ ትዝታዎች ይጠፋሉ። ግን የሰው ክብርና የሰው ፍቅር አይጠፉም።",
+      "subtitle_en": "Some memories fade. But dignity and love do not.",
+      "duration_s": 3.5
+    },
+    {
+      "text": "የአእምሮ መታወክ (ዲሜንሺያ) የእድሜ መግፋት ብቻ አይደለም። ምልክቶቹን ይረዱ። በጊዜ የሕክምና እርዳታ ይፈልጉ። የሚወዷቸውን ሰዎች አትተዉ።",
+      "subtitle_en": "Dementia isn't just old age. Know the signs. Get help early. Don't leave them.",
+      "duration_s": 5
+    },
+    {
+      "text": "ምናልባት ስምህን ይረሳ ይሆናል። አንተ ግን ከጎኑ መሆንህን አትርሳ።",
+      "subtitle_en": "He may forget your name. Don't you forget to stay by his side.",
+      "duration_s": 3.5
+    }
+  ]
+}

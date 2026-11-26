@@ -1,0 +1,14 @@
+.env
+__pycache__/
+.venv/
+.pytest_cache/
+kaggle/inputs/
+kaggle/*/build/
+outputs/assemble/tmp/
+outputs/assemble/
+outputs/auditions/
+outputs/smoke/
+outputs/_unused/
+outputs/final/*_draft.*
+outputs/final/radio_cut*
+.DS_Store
