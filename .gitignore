@@ -12,3 +12,4 @@ outputs/_unused/
 outputs/final/*_draft.*
 outputs/final/radio_cut*
 .DS_Store
+site/dist/

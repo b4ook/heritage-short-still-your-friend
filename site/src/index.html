@@ -1,0 +1,222 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Still Your Friend · አሁንም ጓደኛህ ነኝ</title>
+  <meta name="description" content="An 89-second Amharic short about two lifelong friends, football and dementia, made end to end by a code pipeline. Made with AI.">
+  <meta property="og:title" content="Still Your Friend · አሁንም ጓደኛህ ነኝ">
+  <meta property="og:description" content="An 89-second Amharic short about friendship and dementia, made by a code pipeline. Made with AI.">
+  <meta property="og:image" content="media/poster_16x9.webp">
+  <meta name="theme-color" content="#ffffff">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Noto+Sans+Ethiopic:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="grain" aria-hidden="true"></div>
+
+  <header class="nav" data-enter>
+    <a class="nav-brand" href="#top" aria-label="Still Your Friend, back to top">
+      <span class="nav-mark" aria-hidden="true"></span>
+      <span>Still Your Friend</span>
+    </a>
+    <nav class="nav-links" aria-label="Sections">
+      <a href="#film">Film</a>
+      <a href="#story">Story</a>
+      <a href="#making">Making</a>
+      <a href="#evidence">Evidence</a>
+    </nav>
+    <a class="btn btn-ink btn-sm" href="https://github.com/b4ook/heritage-short-still-your-friend" target="_blank" rel="noopener">Source</a>
+  </header>
+
+  <main id="top">
+    <!-- Hero -->
+    <section class="hero" aria-labelledby="hero-title">
+      <p class="eyebrow" data-enter>A heritage short · Made with AI · 89 seconds</p>
+      <h1 id="hero-title" class="display" data-split>Still your friend.</h1>
+      <p class="hero-am am" lang="am" data-enter>አሁንም ጓደኛህ ነኝ</p>
+      <p class="lede" data-enter>Two friends have watched football together for fifty years. Now Kassa no longer remembers Abebe. Abebe keeps taking him to the match anyway.</p>
+      <div class="hero-actions" data-enter>
+        <button class="btn btn-ink btn-play" type="button" data-open-film>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M8 5.5v13l10.5-6.5z"/></svg>
+          Watch the film
+        </button>
+        <a class="btn btn-ghost" href="#making">How it was made</a>
+      </div>
+
+      <figure id="film" class="film-card" data-reveal-card data-ratio="16x9">
+        <div class="tabs ratio-tabs" role="tablist" aria-label="Film format">
+          <button role="tab" aria-selected="true" data-ratio-tab="16x9"><i class="ratio-icon ratio-wide" aria-hidden="true"></i>Landscape <small>16:9</small></button>
+          <button role="tab" aria-selected="false" data-ratio-tab="9x16"><i class="ratio-icon ratio-tall" aria-hidden="true"></i>Portrait <small>9:16</small></button>
+          <span class="tabs-pill" aria-hidden="true"></span>
+        </div>
+        <button class="film-card-hit" type="button" data-open-film aria-label="Play the film full screen">
+          <img src="media/poster_16x9.webp" alt="Abebe, in a brown flat cap, holds his friend Kassa's hand in the stadium stands." class="film-poster" fetchpriority="high">
+          <span class="film-card-play" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M8 5.5v13l10.5-6.5z"/></svg>
+          </span>
+        </button>
+        <figcaption>Amharic with English subtitles · sound on</figcaption>
+      </figure>
+    </section>
+
+    <!-- Premise -->
+    <section class="premise" aria-label="What the film is">
+      <p class="premise-text" data-reveal>It opens as a story about two friends and a football match. <em>Then it shows you, gently, what dementia takes, and what it cannot.</em></p>
+    </section>
+
+    <!-- Story rail -->
+    <section id="story" class="section" aria-labelledby="story-title">
+      <div class="section-head" data-reveal>
+        <p class="eyebrow">The storyboard</p>
+        <h2 id="story-title" class="h2">Twelve shots, one contract.</h2>
+        <p class="section-lede">Every picture, line and subtitle below is read from <code>storyboard.json</code>, the one file the whole film is built from.</p>
+      </div>
+      <div class="reel" data-reveal>
+        <div class="reel-strip" data-rail tabindex="0" aria-label="Storyboard shots on a film strip. Scroll sideways or use the arrow buttons.">
+          <ol class="reel-track" data-shots></ol>
+        </div>
+      </div>
+      <div class="gate" data-reveal>
+        <div class="gate-meta">
+          <p class="gate-count"><span class="gate-n" data-gate-n>01</span><span class="gate-of"> / 12</span></p>
+          <p class="gate-tag" data-gate-tag></p>
+        </div>
+        <div class="gate-body" data-gate aria-live="polite"></div>
+        <div class="rail-controls">
+          <button class="icon-btn" type="button" data-rail-prev aria-label="Previous shot"><svg viewBox="0 0 24 24"><path d="M15 5l-7 7 7 7"/></svg></button>
+          <button class="icon-btn" type="button" data-rail-next aria-label="Next shot"><svg viewBox="0 0 24 24"><path d="M9 5l7 7-7 7"/></svg></button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Characters -->
+    <section class="section" aria-labelledby="cast-title">
+      <div class="section-head" data-reveal>
+        <p class="eyebrow">The two friends</p>
+        <h2 id="cast-title" class="h2">Fictional faces, held steady.</h2>
+        <p class="section-lede">One approved reference portrait per character keeps Abebe and Kassa the same person across every shot. No real person appears or is voiced.</p>
+      </div>
+      <div class="cast" data-cast></div>
+    </section>
+
+    <!-- Making -->
+    <section id="making" class="section making" aria-labelledby="making-title">
+      <div class="section-head" data-reveal>
+        <p class="eyebrow">How it was made</p>
+        <h2 id="making-title" class="h2">Not edited by hand. Built by a pipeline.</h2>
+        <p class="section-lede">One command rebuilds both films from the storyboard. Each stage caches its output under a hash of the exact request, so changing one line regenerates only that line.</p>
+      </div>
+      <div class="bento" data-bento>
+        <article class="tile tile-hero" data-tile="editor">
+          <p class="tile-copy"><strong>Edit one line.</strong> Only that line is made again.</p>
+          <div class="ed" aria-hidden="true">
+            <div class="ed-chrome"><i></i><i></i><i></i><span class="ed-tab">storyboard.json</span></div>
+            <div class="ed-body">
+              <div class="ed-line"><b>41</b><span class="bar" style="--w:46%"></span></div>
+              <div class="ed-line"><b>42</b><span class="bar" style="--w:62%"></span></div>
+              <div class="ed-line ed-key"><b>43</b><span class="k">"speaker"</span>: <span class="s">"abebe"</span>,</div>
+              <div class="ed-line ed-key"><b>44</b><span class="k">"text"</span>: <span class="s am" lang="am">"አሁንም ነኝ።"</span>,</div>
+              <div class="ed-line ed-key ed-focus"><b>45</b><span class="k">"subtitle_en"</span>: <span class="s">"<span data-type>I still am.</span><span class="caret"></span>"</span></div>
+              <div class="ed-line"><b>46</b><span class="bar" style="--w:38%"></span></div>
+              <div class="ed-line"><b>47</b><span class="bar" style="--w:54%"></span></div>
+              <div class="ed-line"><b>48</b><span class="bar" style="--w:30%"></span></div>
+            </div>
+          </div>
+          <div class="log" aria-hidden="true">
+            <div class="log-head">runs.jsonl</div>
+            <div class="log-row"><span class="dot"></span>s11.3<em>cache_hit</em></div>
+            <div class="log-row"><span class="dot"></span>s12.0<em>cache_hit</em></div>
+            <div class="log-row log-new"><span class="dot dot-live"></span>s12.1<em class="ok">ok · 1 call</em></div>
+          </div>
+        </article>
+        <article class="tile tile-stat" data-tile="stat">
+          <p class="tile-copy"><strong>Rebuilds from cache.</strong> Every keyframe and line already exists.</p>
+          <p class="stat-lead">Model calls to rebuild</p>
+          <p class="stat-num" data-count="0">0</p>
+          <p class="stat-foot">28 keyframes · 16 lines · 3 scores</p>
+        </article>
+        <article class="tile" data-tile="duck">
+          <p class="tile-copy"><strong>The score steps aside.</strong> It ducks under every line.</p>
+          <svg class="duck" viewBox="0 0 320 150" aria-hidden="true">
+            <text x="0" y="22" class="duck-label">Voice</text>
+            <g class="duck-voice"></g>
+            <text x="0" y="104" class="duck-label">Score</text>
+            <path class="duck-track" d="M0 128 H320"/>
+            <path class="duck-music" d="M0 120 H72 C86 120 88 136 102 136 H232 C246 136 248 120 262 120 H320"/>
+          </svg>
+        </article>
+        <article class="tile" data-tile="flow">
+          <p class="tile-copy"><strong>One file, five stages.</strong> Each reads the storyboard.</p>
+          <ol class="flow" aria-label="Pipeline stages">
+            <li><span>Keyframes</span><small>FLUX.2 klein</small></li>
+            <li><span>Dialogue</span><small>Gemini 3.8 TTS</small></li>
+            <li><span>Score</span><small>ACE-Step 1.5</small></li>
+            <li><span>Motion</span><small>Wan 2.2</small></li>
+            <li><span>Assembly</span><small>FFmpeg</small></li>
+          </ol>
+        </article>
+        <article class="tile tile-collection" data-tile="frames">
+          <p class="tile-copy"><strong>24 keyframes.</strong> Framed natively for both screens.</p>
+          <div class="frames" data-frames aria-hidden="true"></div>
+        </article>
+      </div>
+    </section>
+
+    <!-- Evidence -->
+    <section id="evidence" class="section" aria-labelledby="evidence-title">
+      <div class="section-head" data-reveal>
+        <p class="eyebrow">The evidence</p>
+        <h2 id="evidence-title" class="h2">What we tried. What broke.</h2>
+        <p class="section-lede">Every claim is written down in the repository: ten experiments with measured results, and every failure with its cause and fix.</p>
+      </div>
+      <div class="tabs" role="tablist" aria-label="Evidence">
+        <button role="tab" aria-selected="true" aria-controls="panel-exp" id="tab-exp" data-tab="exp">Experiments</button>
+        <button role="tab" aria-selected="false" aria-controls="panel-fail" id="tab-fail" data-tab="fail">Failures</button>
+        <span class="tabs-pill" aria-hidden="true"></span>
+      </div>
+      <div id="panel-exp" role="tabpanel" aria-labelledby="tab-exp" class="cards" data-experiments></div>
+      <div id="panel-fail" role="tabpanel" aria-labelledby="tab-fail" class="cards" data-failures hidden></div>
+    </section>
+
+    <!-- Ethics -->
+    <section class="section ethics" aria-labelledby="ethics-title">
+      <div class="section-head" data-reveal>
+        <p class="eyebrow">Consent, labelling, licences</p>
+        <h2 id="ethics-title" class="h2">Honest about what it is.</h2>
+      </div>
+      <div class="ethics-grid" data-ethics></div>
+    </section>
+
+    <!-- Closing -->
+    <section class="closing" aria-label="Closing message" data-closing></section>
+  </main>
+
+  <footer class="footer">
+    <p>Made with AI. Voices: Gemini 3.8 TTS · Images: FLUX.2 klein · Music: ACE-Step 1.5 · Assembly: FFmpeg.</p>
+    <p>A 10 Academy “AI-Content Generation: The Heritage Short” project by b4ook · <a href="https://github.com/b4ook/heritage-short-still-your-friend" target="_blank" rel="noopener">Source on GitHub</a></p>
+  </footer>
+
+  <!-- Immersive theatre -->
+  <div class="theatre" data-theatre hidden>
+    <canvas class="ambient" data-ambient aria-hidden="true"></canvas>
+    <div class="theatre-frame" data-frame role="dialog" aria-modal="true" aria-label="Film player">
+      <video data-video playsinline preload="metadata" poster="media/poster_16x9.webp"></video>
+    </div>
+    <div class="controls" data-controls>
+      <button class="ctl" type="button" data-toggle-play aria-label="Pause"><svg viewBox="0 0 24 24" data-icon-play><path d="M7 5h3.5v14H7zM13.5 5H17v14h-3.5z"/></svg></button>
+      <span class="ctl-time" data-time>0:00</span>
+      <input class="scrub" type="range" min="0" max="1000" value="0" step="1" aria-label="Seek" data-scrub>
+      <span class="ctl-time" data-duration>1:29</span>
+      <button class="ctl ctl-text" type="button" data-toggle-ratio aria-label="Switch aspect ratio">9:16</button>
+      <button class="ctl" type="button" data-toggle-mute aria-label="Mute"><svg viewBox="0 0 24 24" data-icon-sound><path d="M4 9.5h3.5L12 5.5v13l-4.5-4H4z"/><path d="M15.5 8.5a5 5 0 0 1 0 7M18 6a8.5 8.5 0 0 1 0 12" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></button>
+      <button class="ctl" type="button" data-close aria-label="Close film"><svg viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button>
+    </div>
+  </div>
+
+  <script src="data.js"></script>
+  <script src="app.js" type="module"></script>
+</body>
+</html>

@@ -1,0 +1,8 @@
+{
+  // Static showcase for the film. Build first: python site/build.py
+  "name": "heritage-still-your-friend",
+  "compatibility_date": "2026-11-26",
+  "main": "./worker.js",
+  "assets": { "directory": "./dist", "binding": "ASSETS", "run_worker_first": ["/media/*.mp4"] },
+  "routes": [{ "pattern": "heritage.bebrook.co", "custom_domain": true }]
+}
